@@ -1,6 +1,6 @@
-package sort;
+package edu;
 
-import static sort.MergeSort.mergeSort;
+import static edu.MergeSort.mergeSort;
 
 public class MergeAndInsertionComparison {
 
