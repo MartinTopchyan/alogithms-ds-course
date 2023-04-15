@@ -1,0 +1,15 @@
+1. Insertion sort
+Insertion sort is stable because it doesn't do swap operation
+it is expecting that the left side is already sorted,
+so if the current value is greater than his previous it will just skip.
+[5,2,2,4,6]
+[2,5,2,4,6]
+[2,2,5,4,6]
+[2,2,4,5,6]
+
+
+2. Selection sort
+Selection sort is not stable because when it will find the minimum it will swap the first one and with that the order will be changed.
+
+3. Bubble sort
+Bubble sort is stable because it doing swap only with the next element, so in that case the order can't be changed.

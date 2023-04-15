@@ -1,8 +1,10 @@
+package sort;
+
 import java.util.Arrays;
 
 public class MergeSort {
 
-    public static void sort(int[] array) {
+    public static void mergeSort(int[] array) {
         if (array.length < 2) {
             return;
         }
@@ -19,7 +21,6 @@ public class MergeSort {
             mergeSort(array, mid + 1, right);
             merge(array, left, mid, right);
         }
-        System.out.println(Arrays.toString(array));
     }
 
     public static void merge(int[] array, int left, int mid, int right) {
@@ -55,7 +56,7 @@ public class MergeSort {
     }
 
     public static void main(String[] args) {
-        sort(new int[]{12, 11, 13, 5, 6, 7});
+        mergeSort(new int[]{12, 11, 13, 5, 6, 7});
     }
 
 }
