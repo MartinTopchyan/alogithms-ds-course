@@ -5,7 +5,7 @@ public class MaximumProductSubarray {
     public static int maxProduct(int[] nums) {
         int maxProduct = nums[0];
         int currentMax =1;
-        int currentMin = 1;
+        int currentMin =1;
         for (int num: nums){
             int prevMax = currentMax;
             currentMax = Math.max(currentMax * num, Math.max(currentMin * num, num));
