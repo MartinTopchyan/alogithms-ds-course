@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
-public class MyHastTable {
-    ArrayList<HashNode> bucket;
+public class MyHashSet {
+
+    ArrayList<HashSetNode> bucket;
     int size;
     int bucketsCount;
 
-    public MyHastTable() {
+    public MyHashSet() {
         bucket = new ArrayList<>();
         bucketsCount = 10;
         size = 0;
@@ -37,28 +38,27 @@ public class MyHastTable {
         return size() == 0;
     }
 
-    public void put(String key, int value) {
+    public void add(String key) {
         int bucketNumber = getBucketIndex(key);
-        HashNode head = bucket.get(bucketNumber);
+        HashSetNode head = bucket.get(bucketNumber);
         int hashcode = hashCode(key);
 
         if (head == null) {
-            bucket.set(bucketNumber, new HashNode(key, value, hashcode));
+            bucket.set(bucketNumber, new HashSetNode(key, hashcode));
             size++;
             return;
         }
-        HashNode curr = head;
+        HashSetNode curr = head;
         while (curr != null) {
             if (curr.key.equals(key) && curr.hashcode == hashcode) {
-                curr.value = value;
                 return;
             }
             curr = curr.next;
         }
         size++;
 
-        HashNode newNode = new HashNode(key, value, hashcode);
-        HashNode tmp = head;
+        HashSetNode newNode = new HashSetNode(key, hashcode);
+        HashSetNode tmp = head;
         while (tmp.next != null) {
             tmp = tmp.next;
         }
@@ -68,16 +68,16 @@ public class MyHastTable {
         //  check if load factor has been reached
         if ((size * 1.0 / bucketsCount) > 0.7) {
 
-            ArrayList<HashNode> temp = bucket;
+            ArrayList<HashSetNode> temp = bucket;
             bucket = new ArrayList<>();
             bucketsCount = 2 * bucketsCount;
             size = 0;
 
             IntStream.range(0, bucketsCount).forEach(index -> bucket.add(null));
 
-            for (HashNode headNode : temp) {
+            for (HashSetNode headNode : temp) {
                 while (headNode != null) {
-                    put(headNode.key, headNode.value);
+                    add(headNode.key);
                     headNode = headNode.next;
                 }
             }
@@ -86,28 +86,28 @@ public class MyHastTable {
 
     }
 
-    public Integer get(String key) {
+    public boolean contains(String key) {
         int bucketNumber = getBucketIndex(key);
-        HashNode head = bucket.get(bucketNumber);
+        HashSetNode head = bucket.get(bucketNumber);
         int hashcode = hashCode(key);
 
-        HashNode curr = head;
+        HashSetNode curr = head;
         while (curr != null) {
             if (curr.key.equals(key) && curr.hashcode == hashcode) {
-                return curr.value;
+                return true;
             }
             curr = curr.next;
         }
-        return null;
+        return false;
     }
 
     public boolean remove(String key) {
         int bucketNumber = getBucketIndex(key);
-        HashNode head = bucket.get(bucketNumber);
+        HashSetNode head = bucket.get(bucketNumber);
         int hashcode = hashCode(key);
 
-        HashNode curr = head;
-        HashNode prev = null;
+        HashSetNode curr = head;
+        HashSetNode prev = null;
         while (curr != null) {
             if (curr.key.equals(key) && curr.hashcode == hashcode) {
                 break;
@@ -131,30 +131,27 @@ public class MyHastTable {
     }
 
     public static void main(String[] args) {
-        MyHastTable hastTable = new MyHastTable();
-        hastTable.put("this", 1);
-        hastTable.put("coder", 2);
-        hastTable.put("this", 4);
-        hastTable.put("hi", 5);
-        System.out.println(hastTable.size());
-        System.out.println(hastTable.remove("this"));
-        System.out.println(hastTable.remove("this"));
-        System.out.println(hastTable.size());
-        System.out.println(hastTable.isEmpty());
-        System.out.println(hastTable.get("coder"));
+        MyHashSet hashSet = new MyHashSet();
+        hashSet.add("this");
+        hashSet.add("coder");
+        hashSet.add("this");
+        hashSet.add("hi");
+        System.out.println(hashSet.size());
+        System.out.println(hashSet.remove("this"));
+        System.out.println(hashSet.remove("this"));
+        System.out.println(hashSet.size());
+        System.out.println(hashSet.isEmpty());
+        System.out.println(hashSet.contains("coder"));
     }
 }
 
-class HashNode {
+class HashSetNode{
     String key;
-    int value;
-    HashNode next;
+    HashSetNode next;
     int hashcode;
 
-    public HashNode(String key, int value, int hashcode) {
+    public HashSetNode(String key, int hashcode) {
         this.key = key;
-        this.value = value;
         this.hashcode = hashcode;
     }
 }
-
